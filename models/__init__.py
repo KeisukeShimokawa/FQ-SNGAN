@@ -1,0 +1,1 @@
+from .sngan_32 import SNGANGenerator32, SNGANDiscriminator32
