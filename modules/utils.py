@@ -13,7 +13,7 @@ def init_weight(modules, mode):
     for module in modules():
         if (isinstance(module, nn.Conv2d) 
             or isinstance(module, nn.Linear)
-            or isinstance(nn.ConvTranspose2d)):
+            or isinstance(module, nn.ConvTranspose2d)):
             if mode == "ortho":
                 init.orthogonal_(module.weight)
             
