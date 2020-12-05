@@ -74,28 +74,34 @@ class GBlock(nn.Module):
 
         return x
 
-    def residual(self, x, y):
+    def residual(self, x):
         r"""
         Helper function for feedforwarding through main layers.
         """
         h = x
-        if self.num_classes == 0:
-            h = self.b1(h)
-        else:
-            h = self.b1(h, y)
+        h = self.b1(h)
         h = self.activation(h)
-
         if self.upsample:
             h = F.interpolate(h, scale_factor=2, mode='bilinear', align_corners=False)
-
         h = self.c1(h)
-
-        if self.num_classes == 0:
-            h = self.b2(h)
-        else:
-            h = self.b2(h, y)
+        h = self.b2(h)
         h = self.activation(h)
+        h = self.c2(h)
 
+        return h
+
+    def residual_conditional(self, x, y):
+        r"""
+        Helper function for feedforwarding through main layers with class labels.
+        """
+        h = x
+        h = self.b1(h, y)
+        h = self.activation(h)
+        if self.upsample:
+            h = F.interpolate(h, scale_factor=2, mode='bilinear', align_corners=False)
+        h = self.c1(h)
+        h = self.b2(h, y)
+        h = self.activation(h)
         h = self.c2(h)
 
         return h
@@ -112,7 +118,10 @@ class GBlock(nn.Module):
         Returns:
             Tensor: Output feature map
         """
-        return self.residual(x, y) + self.shortcut(x)
+        if self.num_classes == 0:
+            return self.residual(x) + self.shortcut(x)
+        else:
+            return self.residual_conditional(x, y) + self.shortcut(x)
         
 
 class DBlock(nn.Module):
