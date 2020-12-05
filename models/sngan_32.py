@@ -60,7 +60,13 @@ class SNGANGenerator32(nn.Module):
 
 
 class SNGANDiscriminator32(nn.Module):
+    r"""
+    ResNet backbone discriminator for SNGAN.
 
+    Attributes:
+        ndf (int): Variable controlling discriminator feature map sizes.
+        init_mode (str): initialization mode in ["ortho", "N02", "xavier", "glorot"].
+    """
     def __init__(self,
                  ndf=128,
                  init_mode="xavier"):
@@ -77,12 +83,20 @@ class SNGANDiscriminator32(nn.Module):
         init_weight(self.modules, init_mode)
 
     def forward(self, x):
+        r"""
+        Feedforwards a batch of real/fake images and produces a batch of GAN logits.
 
+        Args:
+            x (Tensor): A batch of images of shape (N, C, H, W).
+
+        Returns:
+            Tensor: A batch of GAN logits of shape (N, 1).
+        """
         h = x
-        h = self.block1(h); print(h.shape)
-        h = self.block2(h); print(h.shape)
-        h = self.block3(h); print(h.shape)
-        h = self.block4(h); print(h.shape)
+        h = self.block1(h)
+        h = self.block2(h)
+        h = self.block3(h)
+        h = self.block4(h)
         h = self.activation(h)
 
         # GAP (Global Average Pooling)
