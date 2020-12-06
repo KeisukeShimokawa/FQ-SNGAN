@@ -1,4 +1,4 @@
-r"""
+"""
 implementation ideas from https://github.com/kwotsin/mimicry/blob/master/torch_mimicry/modules/layers.py
 """
 import torch.nn as nn

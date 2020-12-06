@@ -1,4 +1,4 @@
-r"""
+"""
 original paper [Feature Quantization Improves GAN Training](https://arxiv.org/abs/2004.02088)
 """
 import torch

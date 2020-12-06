@@ -1,4 +1,4 @@
-r"""
+"""
 implementation from https://github.com/POSTECH-CVLab/PyTorch-StudioGAN/blob/7b5ef8dae5dc78d28322e7c05f6ce8b13c380573/src/utils/model_ops.py
 """
 import torch
