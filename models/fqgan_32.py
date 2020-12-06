@@ -137,6 +137,7 @@ class FQGANDiscriminator32(nn.Module):
                 all_quant_loss += loss
                 all_embed_idx.append(embed_idx)
 
+        h = self.activation(h)
         # Global sum pooling
         h = torch.sum(h, dim=(2, 3))
         output = self.l5(h)
